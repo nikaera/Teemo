@@ -1,0 +1,26 @@
+{
+  "name": "Teemo 💕",
+  "description": "Quickly generate chat message with embedded emoji! 💖😆",
+  "version": "0.1.0",
+  "manifest_version": 2,
+  "browser_action": {},
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+O",
+        "linux": "Ctrl+Shift+O",
+        "windows": "Ctrl+Shift+O",
+        "mac": "Ctrl+Shift+O"
+      },
+      "description": "Open the text editing window. 📝"
+    }
+  }
+}
