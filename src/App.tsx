@@ -24,7 +24,7 @@ function App() {
     isShowPicker: false,
   });
 
-  useHotkeys('ctrl+w,cmd+shift+i,ctrl+shift+i', () => window.close());
+  useHotkeys('ctrl+w,cmd+shift+o,ctrl+shift+o', () => window.close());
   useHotkeys('ctrl+c,cmd+c', () => copyTextAreaText());
 
   const copyTextAreaText = () => {
