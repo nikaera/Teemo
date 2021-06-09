@@ -2,7 +2,10 @@
 
 Quickly generate chat message with embedded emoji! 💖😆
 
-This is the extension of the [Google Chrome](https://play.google.com/store/apps/details?id=com.android.chrome&hl=ja&gl=US) that allows you to edit chat text in a text field that can use emoji shortcuts like [Slack](https://www.guidingtech.com/slack-emojis-tips-tricks/#:~:text=While%20Slack%20has%20provided%20the,few%20letters%20of%20the%20emoji.). 👀💨
+This is the extension of the [Google Chrome](https://play.google.com/store/apps/details?id=com.android.chrome&hl=ja&gl=US) that allows you to edit chat message in a text field that can use emoji shortcuts like [Slack](https://www.guidingtech.com/slack-emojis-tips-tricks/#:~:text=While%20Slack%20has%20provided%20the,few%20letters%20of%20the%20emoji.). 👀💨
+
+This is a promotional video for Teemo as follows. 👇🎥  
+[![This is a promotional video for Teemo.](http://img.youtube.com/vi/xJq0bXq0ouM/hqdefault.jpg)](https://www.youtube.com/watch?v=xJq0bXq0ouM&t=1s)
 
 ## 🛠️ Requirement
 
