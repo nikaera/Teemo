@@ -10,7 +10,7 @@ import { ChangeEvent, useEffect, useState, useRef } from "react";
 
 import "./App.css";
 
-function App() {
+const App: React.FunctionComponent = () => {
   const rowMax = 3;
   const columnMax = 9;
 
@@ -471,6 +471,6 @@ function App() {
       ) : null}
     </div>
   );
-}
+};
 
 export default App;
