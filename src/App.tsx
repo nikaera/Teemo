@@ -4,7 +4,7 @@ import { Picker, BaseEmoji, EmojiData, emojiIndex } from "emoji-mart";
 
 import classNames from "classnames";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { useHotkeys} from "react-hotkeys-hook"
+import { useHotkeys } from "react-hotkeys-hook";
 
 import { ChangeEvent, useEffect, useState, useRef } from "react";
 
@@ -22,12 +22,12 @@ function App() {
     suggestions: Array<EmojiData>(),
     copyButtonText: "📋 (Ctrl + C)",
     isShowPicker: false,
-    actionButtonCaption: ""
+    actionButtonCaption: "",
   });
 
-  useHotkeys('ctrl+w,cmd+shift+o,ctrl+shift+o', () => window.close());
-  useHotkeys('ctrl+c,cmd+c', () => copyTextAreaText());
-  useHotkeys('ctrl+r,cmd+r', () => clearTextAreaText());
+  useHotkeys("ctrl+w,cmd+shift+o,ctrl+shift+o", () => window.close());
+  useHotkeys("ctrl+c,cmd+c", () => copyTextAreaText());
+  useHotkeys("ctrl+r,cmd+r", () => clearTextAreaText());
 
   const clearTextAreaText = () => {
     setState({
@@ -36,9 +36,9 @@ function App() {
       editingEmoji: "",
       suggestions: [],
       copyButtonText: "📋 (Ctrl + C)",
-      isShowPicker: false
+      isShowPicker: false,
     });
-  }
+  };
 
   const copyTextAreaText = () => {
     const element = textAreaElement();
@@ -53,7 +53,7 @@ function App() {
       ...state,
       copyButtonText: "📋✔️ (Ctrl + C)",
     });
-  }
+  };
 
   const switchShowPicker = () => {
     const isShowPicker = !state.isShowPicker;
@@ -152,22 +152,30 @@ function App() {
     );
   };
 
-  const setActionButtonCaption = (type: 'reset' | 'pallet' | 'copy' | 'unknown') => {
-    switch(type) {
-      case 'reset':
-        setState({...state, actionButtonCaption: "Clear textarea. 🧼"})
+  const setActionButtonCaption = (
+    type: "reset" | "pallet" | "copy" | "unknown"
+  ) => {
+    switch (type) {
+      case "reset":
+        setState({ ...state, actionButtonCaption: "Clear textarea. 🧼" });
         break;
-      case 'pallet':
-        setState({...state, actionButtonCaption: "Toggle open or close the emoji picker . 🎨"})
+      case "pallet":
+        setState({
+          ...state,
+          actionButtonCaption: "Toggle open or close the emoji picker . 🎨",
+        });
         break;
-      case 'copy':
-        setState({...state, actionButtonCaption: "Copy the text you are typing. 📋"})
+      case "copy":
+        setState({
+          ...state,
+          actionButtonCaption: "Copy the text you are typing. 📋",
+        });
         break;
       default:
-        setState({...state, actionButtonCaption: ""})
+        setState({ ...state, actionButtonCaption: "" });
         break;
     }
-  }
+  };
 
   const setTextAreaCursor = (cursor: number) => {
     setTimeout(() => {
@@ -222,16 +230,14 @@ function App() {
     editingEmoji,
     isShowPicker,
     copyButtonText,
-    actionButtonCaption
+    actionButtonCaption,
   } = state;
 
-  if(process.env.NODE_ENV === 'production') {
-    chrome.runtime.sendMessage(
-      {
-        action: "resizeWindow",
-        data: { isShowPicker, isSuggesting: suggestions.length > 0 }
-      }
-    );
+  if (process.env.NODE_ENV === "production") {
+    chrome.runtime.sendMessage({
+      action: "resizeWindow",
+      data: { isShowPicker, isSuggesting: suggestions.length > 0 },
+    });
   }
 
   if (suggestions.length > 0) {
@@ -316,16 +322,16 @@ function App() {
         <button
           className={classNames("action_button", "reset")}
           onClick={clearTextAreaText}
-          onMouseEnter={() => setActionButtonCaption('reset')}
-          onMouseLeave={() => setActionButtonCaption('unknown')}
+          onMouseEnter={() => setActionButtonCaption("reset")}
+          onMouseLeave={() => setActionButtonCaption("unknown")}
         >
           🆕 (Ctrl + R)
         </button>
         <button
           className={classNames("action_button")}
           onClick={switchShowPicker}
-          onMouseEnter={() => setActionButtonCaption('pallet')}
-          onMouseLeave={() => setActionButtonCaption('unknown')}
+          onMouseEnter={() => setActionButtonCaption("pallet")}
+          onMouseLeave={() => setActionButtonCaption("unknown")}
         >
           🎨 (Ctrl + E)
         </button>
@@ -335,9 +341,11 @@ function App() {
             setState({ ...state, copyButtonText: "📋✔️ (Ctrl + C)" });
           }}
         >
-          <button className={classNames("action_button", "copy")}
-          onMouseEnter={() => setActionButtonCaption('copy')}
-          onMouseLeave={() => setActionButtonCaption('unknown')}>
+          <button
+            className={classNames("action_button", "copy")}
+            onMouseEnter={() => setActionButtonCaption("copy")}
+            onMouseLeave={() => setActionButtonCaption("unknown")}
+          >
             {copyButtonText}
           </button>
         </CopyToClipboard>
@@ -368,8 +376,8 @@ function App() {
           })
         }
         onKeyDown={(e) => {
-          if(e.ctrlKey || e.metaKey) {
-            if(e.key === 'w' || e.key === 'o' || e.key === 'O') {
+          if (e.ctrlKey || e.metaKey) {
+            if (e.key === "w" || e.key === "o" || e.key === "O") {
               window.close();
               return;
             }

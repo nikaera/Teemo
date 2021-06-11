@@ -7,10 +7,10 @@ chrome.browserAction.onClicked.addListener(function () {
   var left = screen.width / 2 - w / 2;
   var top = screen.height / 2 - h / 2;
 
-  chrome.windows.get(vid, function(chromeWindow) {
+  chrome.windows.get(vid, function (chromeWindow) {
     if (!chrome.runtime.lastError && chromeWindow) {
-        chrome.windows.update(vid, {focused: true});
-        return;
+      chrome.windows.update(vid, { focused: true });
+      return;
     }
     chrome.windows.create(
       {
@@ -22,28 +22,32 @@ chrome.browserAction.onClicked.addListener(function () {
         top: top,
       },
       function (window) {
-        vid = window.id
+        vid = window.id;
       }
     );
   });
 
-  chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  chrome.runtime.onMessage.addListener(function (
+    request,
+    sender,
+    sendResponse
+  ) {
     if (request && request.action === "resizeWindow") {
       chrome.windows.getCurrent(function (window) {
-        if(request.data.isShowPicker) {
+        if (request.data.isShowPicker) {
           chrome.windows.update(window.id, {
             width: w,
-            height: h + pickerHeight
+            height: h + pickerHeight,
           });
-        } else if(request.data.isSuggesting) {
+        } else if (request.data.isSuggesting) {
           chrome.windows.update(window.id, {
             width: w,
-            height: h + suggestionHeight
+            height: h + suggestionHeight,
           });
         } else {
           chrome.windows.update(window.id, {
             width: w,
-            height: h
+            height: h,
           });
         }
       });

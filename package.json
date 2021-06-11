@@ -23,12 +23,9 @@
     "format": "npm-run-all lint eslint:fix prettier:fix",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "semantic-release": "semantic-release"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
+    "semantic-release": "semantic-release",
+    "prepare": "husky install",
+    "lint-staged": "lint-staged"
   },
   "browserslist": {
     "production": [
