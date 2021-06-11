@@ -99,9 +99,13 @@ const App: React.FunctionComponent = () => {
     let currentText = event.target.value;
 
     let emojiSentenceIndex = -1;
-    for (let i = event.target.selectionStart - 1; i >= 0; i--) {
-      const colonBeforeEmpty = /\s+/.test(currentText[i - 1]) || i - 1 <= 0;
-      if (colonBeforeEmpty && currentText[i] === ":") {
+    let selectionStart = event.target.selectionStart - 1;
+    if (currentText[selectionStart] === ":") {
+      selectionStart -= 1;
+    }
+
+    for (let i = selectionStart; i >= 0; i--) {
+      if (currentText[i] === ":") {
         emojiSentenceIndex = i;
         break;
       } else if (/\s+/.test(currentText[i])) {
@@ -109,10 +113,10 @@ const App: React.FunctionComponent = () => {
       }
     }
 
-    const currentEmoji =
-      emojiSentenceIndex > -1
-        ? currentText.substr(emojiSentenceIndex).split(/\s+/)[0]
-        : null;
+    const matches = /^:[a-z!@#$%^&*)(+=._-]+:?/.exec(
+      currentText.substr(emojiSentenceIndex)
+    );
+    const currentEmoji = emojiSentenceIndex > -1 && matches ? matches[0] : null;
 
     let suggestions: Array<EmojiData> | null = null;
     if (currentEmoji) {
@@ -122,7 +126,10 @@ const App: React.FunctionComponent = () => {
         const currentSuggestions = emojiIndex.search(emoji);
         if (currentSuggestions != null && currentSuggestions.length > 0) {
           const emojiReplace = (currentSuggestions[0] as BaseEmoji).native;
-          currentText = currentText.replace(currentEmoji, `${emojiReplace} `);
+          currentText = currentText.replace(currentEmoji, emojiReplace);
+
+          console.log(emojiSentenceIndex);
+          setTextAreaCursor(emojiSentenceIndex + emojiReplace.length);
         }
       } else {
         suggestions = emojiIndex.search(emoji);
@@ -185,7 +192,7 @@ const App: React.FunctionComponent = () => {
         element.selectionStart = cursor;
         element.selectionEnd = cursor;
       }
-    }, 1);
+    }, 0);
   };
 
   const selectedEmojiInfo = (highlight: string) => {
