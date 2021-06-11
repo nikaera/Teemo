@@ -113,7 +113,7 @@ const App: React.FunctionComponent = () => {
       }
     }
 
-    const matches = /^:[a-z!@#$%^&*)(+=._-]+:?/.exec(
+    const matches = /^:[a-z0-9!@#$%^&*)(+=._-]+:?/.exec(
       currentText.substr(emojiSentenceIndex)
     );
     const currentEmoji = emojiSentenceIndex > -1 && matches ? matches[0] : null;
