@@ -1,3 +1,4 @@
+let vid = -1;
 chrome.browserAction.onClicked.addListener(function () {
   var w = 380;
   var h = 180;
@@ -6,17 +7,25 @@ chrome.browserAction.onClicked.addListener(function () {
   var left = screen.width / 2 - w / 2;
   var top = screen.height / 2 - h / 2;
 
-  chrome.windows.create(
-    {
-      url: "index.html",
-      type: "popup",
-      width: w,
-      height: h,
-      left: left,
-      top: top,
-    },
-    function (window) {}
-  );
+  chrome.windows.get(vid, function(chromeWindow) {
+    if (!chrome.runtime.lastError && chromeWindow) {
+        chrome.windows.update(vid, {focused: true});
+        return;
+    }
+    chrome.windows.create(
+      {
+        url: "index.html",
+        type: "popup",
+        width: w,
+        height: h,
+        left: left,
+        top: top,
+      },
+      function (window) {
+        vid = window.id
+      }
+    );
+  });
 
   chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (request && request.action === "resizeWindow") {

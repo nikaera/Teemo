@@ -61,12 +61,20 @@ textarea::placeholder {
   font-family: "Noto Sans JP", sans-serif;
 }
 
+.action_button.reset {
+  margin-right: 1em;
+}
+
 .action_button.pallet {
   font-style: italic;
 }
 
 .action_button.copy {
   margin-left: 1em;
+}
+
+.action_button_caption {
+  margin-top: 0.3em;
 }
 
 .emoji {

@@ -22,10 +22,23 @@ function App() {
     suggestions: Array<EmojiData>(),
     copyButtonText: "📋 (Ctrl + C)",
     isShowPicker: false,
+    actionButtonCaption: ""
   });
 
   useHotkeys('ctrl+w,cmd+shift+o,ctrl+shift+o', () => window.close());
   useHotkeys('ctrl+c,cmd+c', () => copyTextAreaText());
+  useHotkeys('ctrl+r,cmd+r', () => clearTextAreaText());
+
+  const clearTextAreaText = () => {
+    setState({
+      ...state,
+      text: "",
+      editingEmoji: "",
+      suggestions: [],
+      copyButtonText: "📋 (Ctrl + C)",
+      isShowPicker: false
+    });
+  }
 
   const copyTextAreaText = () => {
     const element = textAreaElement();
@@ -61,7 +74,7 @@ function App() {
     textAreaEl.current as unknown as HTMLTextAreaElement;
 
   useEffect(() => {
-    const switchShowPickerShortcut = (e: KeyboardEvent) => {
+    const onDetectHotKey = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === "e") {
         switchShowPicker();
       }
@@ -69,11 +82,15 @@ function App() {
       if ((e.ctrlKey || e.metaKey) && e.key === "c") {
         copyTextAreaText();
       }
+
+      if ((e.ctrlKey || e.metaKey) && e.key === "r") {
+        clearTextAreaText();
+      }
     };
-    document.addEventListener("keydown", switchShowPickerShortcut);
+    document.addEventListener("keydown", onDetectHotKey);
 
     return function cleanup() {
-      document.removeEventListener("keydown", switchShowPickerShortcut);
+      document.removeEventListener("keydown", onDetectHotKey);
     };
   });
 
@@ -135,6 +152,23 @@ function App() {
     );
   };
 
+  const setActionButtonCaption = (type: 'reset' | 'pallet' | 'copy' | 'unknown') => {
+    switch(type) {
+      case 'reset':
+        setState({...state, actionButtonCaption: "Clear textarea. 🧼"})
+        break;
+      case 'pallet':
+        setState({...state, actionButtonCaption: "Toggle open or close the emoji picker . 🎨"})
+        break;
+      case 'copy':
+        setState({...state, actionButtonCaption: "Copy the text you are typing. 📋"})
+        break;
+      default:
+        setState({...state, actionButtonCaption: ""})
+        break;
+    }
+  }
+
   const setTextAreaCursor = (cursor: number) => {
     setTimeout(() => {
       const element = textAreaElement();
@@ -188,6 +222,7 @@ function App() {
     editingEmoji,
     isShowPicker,
     copyButtonText,
+    actionButtonCaption
   } = state;
 
   if(process.env.NODE_ENV === 'production') {
@@ -279,8 +314,18 @@ function App() {
     !isShowPicker && suggestions.length === 0 ? (
       <div>
         <button
+          className={classNames("action_button", "reset")}
+          onClick={clearTextAreaText}
+          onMouseEnter={() => setActionButtonCaption('reset')}
+          onMouseLeave={() => setActionButtonCaption('unknown')}
+        >
+          🆕 (Ctrl + R)
+        </button>
+        <button
           className={classNames("action_button")}
           onClick={switchShowPicker}
+          onMouseEnter={() => setActionButtonCaption('pallet')}
+          onMouseLeave={() => setActionButtonCaption('unknown')}
         >
           🎨 (Ctrl + E)
         </button>
@@ -290,10 +335,16 @@ function App() {
             setState({ ...state, copyButtonText: "📋✔️ (Ctrl + C)" });
           }}
         >
-          <button className={classNames("action_button", "copy")}>
+          <button className={classNames("action_button", "copy")}
+          onMouseEnter={() => setActionButtonCaption('copy')}
+          onMouseLeave={() => setActionButtonCaption('unknown')}>
             {copyButtonText}
           </button>
         </CopyToClipboard>
+
+        <p className={classNames("caution", "action_button_caption")}>
+          {actionButtonCaption}
+        </p>
       </div>
     ) : null;
 

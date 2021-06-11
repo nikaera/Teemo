@@ -45,6 +45,8 @@ After executing the above, a `build` folder will be created in the project, and 
 - Ctrl or Cmd + Shift + O
   - Toggle open or close the text editor. ✍️
 - While the text editor is open ☝️
+  - Ctrl + R
+    - Clear the text area. 🧼
   - Ctrl + E
     - Toggle open or close the emoji picker . 🎨
   - Ctrl + C
