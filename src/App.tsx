@@ -28,6 +28,17 @@ const App: React.FunctionComponent = () => {
   useHotkeys("ctrl+w,cmd+shift+o,ctrl+shift+o", () => window.close());
   useHotkeys("ctrl+c,cmd+c", () => copyTextAreaText());
   useHotkeys("ctrl+r,cmd+r", () => clearTextAreaText());
+  useHotkeys("esc", () => showDefaultUI());
+
+  const showDefaultUI = () => {
+    setState({
+      ...state,
+      copyButtonText: "📋 (Ctrl + C)",
+      isShowPicker: false,
+      editingEmoji: "",
+      suggestions: [],
+    });
+  };
 
   const clearTextAreaText = () => {
     setState({
@@ -77,14 +88,12 @@ const App: React.FunctionComponent = () => {
     const onDetectHotKey = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === "e") {
         switchShowPicker();
-      }
-
-      if ((e.ctrlKey || e.metaKey) && e.key === "c") {
+      } else if ((e.ctrlKey || e.metaKey) && e.key === "c") {
         copyTextAreaText();
-      }
-
-      if ((e.ctrlKey || e.metaKey) && e.key === "r") {
+      } else if ((e.ctrlKey || e.metaKey) && e.key === "r") {
         clearTextAreaText();
+      } else if (e.key === "Escape") {
+        showDefaultUI();
       }
     };
     document.addEventListener("keydown", onDetectHotKey);
@@ -128,7 +137,6 @@ const App: React.FunctionComponent = () => {
           const emojiReplace = (currentSuggestions[0] as BaseEmoji).native;
           currentText = currentText.replace(currentEmoji, emojiReplace);
 
-          console.log(emojiSentenceIndex);
           setTextAreaCursor(emojiSentenceIndex + emojiReplace.length);
         }
       } else {
@@ -375,13 +383,7 @@ const App: React.FunctionComponent = () => {
         placeholder={
           ": (colon) followed by the first few letters of the emoji !\n :+1:, :cat:, :hand: and so on. 😉👉"
         }
-        onClick={() =>
-          setState({
-            ...state,
-            copyButtonText: "📋 (Ctrl + C)",
-            isShowPicker: false,
-          })
-        }
+        onClick={showDefaultUI}
         onKeyDown={(e) => {
           if (e.ctrlKey || e.metaKey) {
             if (e.key === "w" || e.key === "o" || e.key === "O") {
@@ -461,7 +463,7 @@ const App: React.FunctionComponent = () => {
               const native = (emoji as BaseEmoji).native;
               const after = text.slice(element.selectionStart);
 
-              const newText = `${before}${native} ${after}`;
+              const newText = `${before}${native}${after}`;
 
               setState({
                 ...state,
@@ -471,7 +473,7 @@ const App: React.FunctionComponent = () => {
                 copyButtonText: "📋 (Ctrl + C)",
               });
 
-              setTextAreaCursor(before.length + native.length + 1);
+              setTextAreaCursor(before.length + native.length);
             }}
           />
         </div>

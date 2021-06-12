@@ -102,7 +102,7 @@ textarea::placeholder {
 }
 
 .emoji.selected {
-  border-radius: 5%;
+  border-radius: 50%;
   background-color: #f4f4f4;
 }
 

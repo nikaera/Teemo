@@ -19,7 +19,7 @@ module.exports = {
       {
         assets: [
           {
-            path: "build.zip",
+            path: "teemo-chrome-extension.zip",
             label: "Teemo - Chrome Extension",
           },
         ],

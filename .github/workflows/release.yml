@@ -21,4 +21,6 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
+        run: |
+          mv build.zip teemo-chrome-extension.zip
+          npx semantic-release
