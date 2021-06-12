@@ -15,8 +15,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "INLINE_RUNTIME_CHUNK=false react-scripts build && cp background.js assets/* build && zip -r build.zip build/",
-    "eslint": "eslint src/**/*.ts",
-    "eslint:fix": "eslint src/**/*.ts --fix",
+    "eslint": "eslint src/**/*.{ts,tsx}",
+    "eslint:fix": "eslint src/**/*.{ts,tsx} --fix",
     "prettier:fix": "prettier . \"!test*\" --check --write",
     "check-types": "tsc --noEmit",
     "lint": "npm-run-all eslint check-types",
