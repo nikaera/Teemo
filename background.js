@@ -3,7 +3,7 @@ chrome.browserAction.onClicked.addListener(function () {
   var w = 380;
   var h = 180;
   var pickerHeight = 405;
-  var suggestionHeight = 130;
+  var suggestionHeight = 100;
   var left = screen.width / 2 - w / 2;
   var top = screen.height / 2 - h / 2;
 
