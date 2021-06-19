@@ -4,6 +4,7 @@ import { emojiIndex, BaseEmoji, EmojiData } from "emoji-mart";
 
 import {
   useState,
+  useEffect,
   useCallback,
   MouseEvent,
   ChangeEvent,
@@ -21,6 +22,7 @@ interface EmojiTextAreaProps {
   onSuggesting?: (val: boolean) => void;
   onClick?: (e: MouseEvent<HTMLTextAreaElement>) => void;
   onChange: (val: string) => void;
+  placeholder?: string;
   rows?: number;
   cols?: number;
 }
@@ -55,6 +57,13 @@ const EmojiTextArea: React.ForwardRefRenderFunction<
       }, 0);
     }
   };
+
+  useEffect(() => {
+    const element = textAreaElement();
+    if (element && !props.showPicker) {
+      element.focus();
+    }
+  }, [props.showPicker]);
 
   const handleChange = useCallback(
     (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -209,27 +218,32 @@ const EmojiTextArea: React.ForwardRefRenderFunction<
     }
   };
 
-  const onSelectEmoji = useCallback(
-    (emoji: EmojiData) => {
-      const element = textAreaElement();
-      const before = text.slice(0, element.selectionStart);
-      const native = (emoji as BaseEmoji).native;
-      const after = text.slice(element.selectionStart);
+  const onSelectEmoji = (emoji: EmojiData) => {
+    const element = textAreaElement();
+    const before = text.slice(0, element.selectionStart);
+    const native = (emoji as BaseEmoji).native;
+    const after = text.slice(element.selectionStart);
 
-      const newText = `${before}${native}${after}`;
+    const newText = `${before}${native}${after}`;
 
-      setState({
-        ...state,
-        text: newText,
-        editingEmoji: "",
-        suggestions: [],
-        selectedEmojiIndex: 0,
-      });
+    setState({
+      ...state,
+      text: newText,
+      editingEmoji: "",
+      suggestions: [],
+      selectedEmojiIndex: 0,
+    });
 
-      setTextAreaCursor(before.length + native.length);
-    },
-    [text]
-  );
+    setTextAreaCursor(before.length + native.length);
+  };
+
+  const onClick = (e: MouseEvent<HTMLTextAreaElement>) => {
+    if (props.onClick) {
+      props.onClick(e);
+    }
+  };
+  const onOverEmojiIndex = (index: number) =>
+    setState({ ...state, selectedEmojiIndex: index });
 
   const highlight = editingEmoji.substr(1);
   return (
@@ -238,15 +252,11 @@ const EmojiTextArea: React.ForwardRefRenderFunction<
         autoFocus={true}
         value={text}
         onChange={handleChange}
-        onClick={(e) => {
-          if (props.onClick) props.onClick(e);
-        }}
+        onClick={onClick}
         ref={ref}
         rows={props.rows ? props.rows : 3}
         cols={props.cols ? props.cols : 40}
-        placeholder={
-          ": (colon) followed by the first few letters of the emoji !\n :+1:, :cat:, :hand: and so on. 😉👉"
-        }
+        placeholder={props.placeholder}
         onKeyDown={handleKeyDown}
         onKeyPress={handleKeyUp}
       />
@@ -254,12 +264,10 @@ const EmojiTextArea: React.ForwardRefRenderFunction<
         emojiIndex={selectedEmojiIndex}
         suggestions={suggestions}
         highlight={highlight}
-        onOverEmojiIndex={(index) =>
-          setState({ ...state, selectedEmojiIndex: index })
-        }
+        onOverEmojiIndex={onOverEmojiIndex}
         onSelect={enterEmoji}
       />
-      <EmojiPicker hidden={!props.showPicker} onSelect={onSelectEmoji} />
+      {props.showPicker ? <EmojiPicker onSelect={onSelectEmoji} /> : null}
     </div>
   );
 };

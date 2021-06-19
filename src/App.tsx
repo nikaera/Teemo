@@ -13,9 +13,10 @@ const App: React.FunctionComponent = () => {
     text: "",
     isExistSuggests: false,
     isShowPicker: false,
+    isCopied: false,
   });
 
-  const { isExistSuggests, text, isShowPicker } = state;
+  const { isExistSuggests, text, isShowPicker, isCopied } = state;
 
   useHotkeys("ctrl+w,cmd+shift+o,ctrl+shift+o", () => window.close());
   useHotkeys("ctrl+c,cmd+c", () => copyTextAreaText());
@@ -27,14 +28,16 @@ const App: React.FunctionComponent = () => {
       ...state,
       isShowPicker: false,
       isExistSuggests: false,
+      isCopied: false,
     });
   };
 
+  const switchShowPicker = () => {
+    setState({ ...state, isShowPicker: !isShowPicker, isCopied: false });
+  };
+
   const clearTextAreaText = () => {
-    if (textAreaEl.current) {
-      const element = textAreaEl.current;
-      element.value = "";
-    }
+    window.location.reload();
   };
 
   const setTextAreaCursor = (cursor: number) => {
@@ -57,26 +60,26 @@ const App: React.FunctionComponent = () => {
       document.execCommand("copy");
 
       setTextAreaCursor(currentCursor);
+      setState({ ...state, isCopied: true });
     }
   };
 
   useEffect(() => {
     const onDetectHotKey = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === "e") {
-        setState({ ...state, isShowPicker: !isShowPicker });
-        e.preventDefault();
-      } else if ((e.ctrlKey || e.metaKey) && e.key === "c") {
-        copyTextAreaText();
-      } else if ((e.ctrlKey || e.metaKey) && e.key === "r") {
-        clearTextAreaText();
-      } else if (e.key === "Escape") {
-        showDefaultUI();
-      }
       if (e.ctrlKey || e.metaKey) {
-        if (e.key === "w" || e.key === "o" || e.key === "O") {
+        if (e.key === "e") {
+          switchShowPicker();
+          e.preventDefault();
+        } else if (e.key === "c") {
+          copyTextAreaText();
+        } else if (e.key === "r") {
+          clearTextAreaText();
+        } else if (e.key === "w" || e.key === "o" || e.key === "O") {
           window.close();
           return;
         }
+      } else if (e.key === "Escape") {
+        showDefaultUI();
       }
     };
     document.addEventListener("keydown", onDetectHotKey);
@@ -100,7 +103,7 @@ const App: React.FunctionComponent = () => {
           clearTextAreaText();
           break;
         case "pallet":
-          setState({ ...state, isShowPicker: !isShowPicker });
+          switchShowPicker();
           break;
         case "copy":
           copyTextAreaText();
@@ -110,13 +113,17 @@ const App: React.FunctionComponent = () => {
     [text]
   );
 
+  const onClick = useCallback(
+    () => setState({ ...state, isShowPicker: false }),
+    []
+  );
   const onSuggesting = useCallback(
     (isSuggesting: boolean) =>
-      setState({ ...state, isExistSuggests: isSuggesting }),
+      setState({ ...state, isExistSuggests: isSuggesting, isCopied: false }),
     []
   );
   const onChange = useCallback(
-    (text: string) => setState({ ...state, text }),
+    (text: string) => setState({ ...state, text, isCopied: false }),
     []
   );
 
@@ -127,9 +134,14 @@ const App: React.FunctionComponent = () => {
         showPicker={isShowPicker}
         onSuggesting={onSuggesting}
         onChange={onChange}
+        onClick={onClick}
+        placeholder={
+          ": (colon) followed by the first few letters of the emoji !\n :+1:, :cat:, :hand: and so on. 😉👉"
+        }
       />
       <ActionButtonArea
         hidden={isShowPicker || isExistSuggests}
+        copied={isCopied}
         onClick={onClickActionButton}
       />
     </div>

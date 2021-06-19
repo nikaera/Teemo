@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import classNames from "classnames";
 
 import { useCallback, useState, MouseEvent } from "react";
 
 interface ActionButtonAreaProps {
   hidden?: boolean;
+  copied: boolean;
   onClick: (type: "reset" | "pallet" | "copy") => void;
 }
 
@@ -41,7 +40,7 @@ const ActionButtonArea: React.FunctionComponent<ActionButtonAreaProps> = (
   );
 
   const clearActionButtonCaption = useCallback(
-    (_: MouseEvent<HTMLButtonElement>) => setActionButtonCaption(""),
+    () => setActionButtonCaption(""),
     []
   );
 
@@ -72,7 +71,7 @@ const ActionButtonArea: React.FunctionComponent<ActionButtonAreaProps> = (
         onMouseEnter={updateActionButtonCaption}
         onMouseLeave={clearActionButtonCaption}
       >
-        📋 (Ctrl + C)
+        {props.copied ? "✅" : "📋"} (Ctrl + C)
       </button>
       <p className={classNames("caution", "action_button_caption")}>
         {actionButtonCaption}

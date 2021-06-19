@@ -1,6 +1,8 @@
 import classNames from "classnames";
 import { EmojiData, BaseEmoji } from "emoji-mart";
 
+import { useCallback } from "react";
+
 interface SuggestAreaProps {
   highlight?: string;
   suggestions: Array<EmojiData>;
@@ -62,6 +64,12 @@ const SuggestArea: React.FunctionComponent<SuggestAreaProps> = (props) => {
   };
 
   let suggestsElement = null;
+  const onClick = useCallback(() => {
+    if (suggestions.length > 0) {
+      onSelect(suggestions[emojiIndex]);
+    }
+  }, [suggestions]);
+
   if (suggestions.length > 0) {
     const emojiIndex = selectEmojiIndex();
     const suggestionsChunk = arrayChunk(suggestions, columnMax);
@@ -80,11 +88,7 @@ const SuggestArea: React.FunctionComponent<SuggestAreaProps> = (props) => {
                 key={emoji.id}
                 className={emojiClass}
                 onMouseOver={() => onOverEmojiIndex(index)}
-                onClick={() => {
-                  if (suggestions.length > 0) {
-                    onSelect(suggestions[emojiIndex]);
-                  }
-                }}
+                onClick={onClick}
               >
                 {selected}
               </span>
