@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import classNames from "classnames";
 
 import { useCallback, useState, MouseEvent } from "react";
