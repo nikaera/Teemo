@@ -18,7 +18,7 @@ jobs:
         run: |
           yarn install --frozen-lockfile
           yarn format
-          yarn build --if-present
+          yarn build
       - name: Upload build folder (Chrome Extension)
         uses: actions/upload-artifact@v2
         with:

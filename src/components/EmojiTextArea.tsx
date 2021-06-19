@@ -209,24 +209,27 @@ const EmojiTextArea: React.ForwardRefRenderFunction<
     }
   };
 
-  const onSelectEmoji = (emoji: EmojiData) => {
-    const element = textAreaElement();
-    const before = text.slice(0, element.selectionStart);
-    const native = (emoji as BaseEmoji).native;
-    const after = text.slice(element.selectionStart);
+  const onSelectEmoji = useCallback(
+    (emoji: EmojiData) => {
+      const element = textAreaElement();
+      const before = text.slice(0, element.selectionStart);
+      const native = (emoji as BaseEmoji).native;
+      const after = text.slice(element.selectionStart);
 
-    const newText = `${before}${native}${after}`;
+      const newText = `${before}${native}${after}`;
 
-    setState({
-      ...state,
-      text: newText,
-      editingEmoji: "",
-      suggestions: [],
-      selectedEmojiIndex: 0,
-    });
+      setState({
+        ...state,
+        text: newText,
+        editingEmoji: "",
+        suggestions: [],
+        selectedEmojiIndex: 0,
+      });
 
-    setTextAreaCursor(before.length + native.length);
-  };
+      setTextAreaCursor(before.length + native.length);
+    },
+    [text]
+  );
 
   const highlight = editingEmoji.substr(1);
   return (
