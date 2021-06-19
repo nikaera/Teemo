@@ -55,6 +55,7 @@ textarea::placeholder {
 }
 
 .action_button {
+  height: 1.9rem;
   font-size: 1.3em;
   margin-top: 0.5em;
   padding: 0 0.5em;
