@@ -1,10 +1,11 @@
 {
   "name": "teemo",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "dependencies": {
     "classnames": "^2.3.1",
-    "emoji-mart": "^3.0.1"
+    "emoji-mart": "^3.0.1",
+    "@nikaera/react-emoji-textarea": "^1.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

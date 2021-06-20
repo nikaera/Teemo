@@ -55,8 +55,8 @@ textarea::placeholder {
 }
 
 .action_button {
-  height: 1.9rem;
-  font-size: 1.3em;
+  height: 2rem;
+  font-size: 1.1em;
   margin-top: 0.5em;
   padding: 0 0.5em;
   font-family: "Noto Sans JP", sans-serif;
@@ -75,53 +75,11 @@ textarea::placeholder {
 }
 
 .action_button_caption {
-  margin-top: 0.3em;
-}
-
-.emoji {
-  margin-left: 0.1em;
-  margin-right: 0.1em;
-  padding: 0.3em;
-  font-size: 1.1em;
-}
-
-.emoji.info {
-  font-size: 1.5em;
-  margin: 0px;
-  height: 2em;
-}
-
-.emoji.info .colons {
-  position: relative;
-  top: -10px;
-}
-
-.colons {
-  font-size: 0.5em;
-  font-style: italic;
-  color: gray;
-}
-
-.emoji.selected {
-  border-radius: 50%;
-  background-color: #f4f4f4;
-}
-
-.emoji.line {
-  margin-top: 0px;
-  margin-bottom: 0px;
-}
-
-.caution {
   font-family: "Noto Sans JP", sans-serif;
   font-size: 0.8em;
   font-style: italic;
   color: gray;
-}
-
-.emoji_picker_margin {
   margin-top: 0.3em;
-  margin-bottom: 0.5em;
 }
 
 #custom_picker .emoji-mart-preview-data {

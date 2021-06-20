@@ -2,8 +2,8 @@ import { useHotkeys } from "react-hotkeys-hook";
 
 import { useEffect, useState, useCallback, createRef } from "react";
 
-import EmojiTextArea from "./components/EmojiTextArea";
 import ActionButtonArea from "./components/ActionButtonArea";
+import EmojiTextArea from "@nikaera/react-emoji-textarea";
 
 import "./App.css";
 
@@ -135,6 +135,12 @@ const App: React.FunctionComponent = () => {
         onSuggesting={onSuggesting}
         onChange={onChange}
         onClick={onClick}
+        emojiPickerProps={{
+          emoji: "",
+          title: "Teemo 💕",
+          showSkinTones: false,
+          autoFocus: true,
+        }}
         placeholder={
           ": (colon) followed by the first few letters of the emoji !\n :+1:, :cat:, :hand: and so on. 😉👉"
         }
@@ -144,6 +150,12 @@ const App: React.FunctionComponent = () => {
         copied={isCopied}
         onClick={onClickActionButton}
       />
+      <p
+        className={"action_button_caption"}
+        style={{ display: isShowPicker ? "" : "none" }}
+      >
+        To close the emoji picker, type Ctrl + E or click on the text area. 🎨
+      </p>
     </div>
   );
 };
