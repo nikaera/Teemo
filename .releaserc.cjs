@@ -1,3 +1,4 @@
+/* global module */
 module.exports = {
   branches: ["main"],
   plugins: [
