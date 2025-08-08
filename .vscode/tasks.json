@@ -1,0 +1,14 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "Start Vite Dev Server",
+      "command": "npm start",
+      "group": "build",
+      "isBackground": true,
+      "problemMatcher": ["$tsc"],
+      "args": []
+    }
+  ]
+}

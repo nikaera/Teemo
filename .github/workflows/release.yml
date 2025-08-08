@@ -5,19 +5,16 @@ on:
       - main
 jobs:
   release:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout this repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: 14
+          node-version: 24
       - name: Build Teemo 💖
-        run: |
-          yarn install --frozen-lockfile
-          yarn format
-          yarn build
+        run: npm ci && npm run build
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

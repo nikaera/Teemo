@@ -1,4 +1,157 @@
-@import url(https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300&display=swap);
+
+html, body, #root {
+  height: 100%;
+  min-height: 100%;
+}
+
+.teemo-main {
+  max-width: 370px;
+  margin: 0 auto;
+  padding: 1.2em 1.1em 0.7em 1.1em;
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: 1.3em;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.07);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1.1em;
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  transition: background 0.3s, backdrop-filter 0.3s;
+}
+
+.teemo-textarea-wrap {
+  position: relative;
+  background: #f7fafd;
+  border-radius: 1.1em;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+  padding: 0.7em 0.9em 0.7em 0.9em;
+  transition:
+    box-shadow 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+    background 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.teemo-textarea-wrap.focused {
+  background: #eaf4ff;
+  box-shadow: 0 2px 16px rgba(0, 122, 255, 0.1);
+}
+
+.teemo-copied-label {
+  position: absolute;
+  right: 1.1em;
+  top: 0.7em;
+  background: #007aff;
+  color: #fff;
+  font-size: 0.98em;
+  border-radius: 1em;
+  padding: 0.18em 0.9em;
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+  pointer-events: none;
+  animation: teemo-copied-fade 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.1);
+}
+@keyframes teemo-copied-fade {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(0) scale(1.05);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+}
+
+.teemo-picker {
+  transition:
+    opacity 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: scale(0.97);
+  pointer-events: none;
+}
+.teemo-picker.show {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+.teemo-picker.anim {
+  transition:
+    opacity 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 既存のtextareaにもミニマルな枠線・角丸を */
+textarea {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  min-height: 3.2em;
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 1.13em;
+  color: #222;
+  padding: 0.2em 0.1em;
+  border-radius: 0.7em;
+  transition: background 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+}
+textarea:focus {
+  background: #eaf4ff;
+}
+
+/* ActionButtonAreaや既存ボタンの余白・角丸・影を微調整 */
+.action_button_area {
+  margin-top: 0.2em;
+  gap: 0.1em;
+}
+.action_button_group {
+  gap: 0.3em;
+}
+.action_button {
+  border-radius: 1.3em;
+  font-size: 1.13em;
+  min-width: 2.2rem;
+  height: 2.2rem;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+  background: #f7fafd;
+  color: #007aff;
+  transition:
+    background 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.action_button:hover,
+.action_button:focus-visible {
+  background: #eaf4ff;
+  color: #0051a8;
+  box-shadow: 0 4px 16px rgba(0, 122, 255, 0.1);
+  transform: scale(1.08);
+}
+.action_button:active {
+  background: #dbefff;
+  color: #003e7e;
+  transform: scale(0.97);
+  box-shadow: 0 1px 4px rgba(0, 122, 255, 0.08);
+}
+
+.action_button_caption {
+  font-size: 0.93em;
+  color: #7a8ca3;
+  margin-top: 0.4em;
+  min-height: 1.2em;
+  transition: opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  text-align: center;
+}
 
 .App {
   padding-top: 1em;
@@ -48,6 +201,56 @@ textarea {
   font-size: 1.1em;
 }
 
+/* Aurora animated background */
+.aurora-bg-container {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+}
+
+
+
+.aurora-bg {
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background:
+    linear-gradient(120deg, #ffb6ff 0%, #b28dff 30%, #8fdfff 60%, #7efff5 80%, #fff6a7 100%),
+    radial-gradient(ellipse at 70% 40%, #ffb6ff 0%, transparent 70%),
+    radial-gradient(ellipse at 20% 80%, #7efff5 0%, transparent 80%),
+    radial-gradient(ellipse at 80% 80%, #ffb86c 0%, transparent 80%),
+    radial-gradient(ellipse at 40% 20%, #b28dff 0%, transparent 70%);
+  background-size: 220% 220%, 120% 120%, 150% 150%, 180% 180%, 140% 140%;
+  background-position: 50% 60%, 60% 40%, 20% 80%, 80% 80%, 40% 20%;
+  filter: blur(54px) brightness(1.08) saturate(1.18);
+  opacity: 0.92;
+  animation: neon-wave-move 56s cubic-bezier(0.44,0.05,0.55,0.95) infinite;
+  will-change: background-position;
+}
+
+
+
+@keyframes neon-wave-move {
+  0% {
+    background-position: 50% 60%, 60% 40%, 20% 80%, 80% 80%, 40% 20%;
+  }
+  20% {
+    background-position: 55% 62%, 65% 45%, 25% 85%, 75% 75%, 45% 25%;
+  }
+  40% {
+    background-position: 60% 65%, 70% 50%, 30% 90%, 70% 70%, 50% 30%;
+  }
+  60% {
+    background-position: 55% 62%, 65% 45%, 25% 85%, 75% 75%, 45% 25%;
+  }
+  100% {
+    background-position: 50% 60%, 60% 40%, 20% 80%, 80% 80%, 40% 20%;
+  }
+}
+
 textarea::placeholder {
   font-family: "Noto Sans JP", sans-serif;
   font-size: 0.9em;
@@ -55,11 +258,81 @@ textarea::placeholder {
 }
 
 .action_button {
-  height: 2rem;
-  font-size: 1.1em;
-  margin-top: 0.5em;
-  padding: 0 0.5em;
+  height: 2.4rem;
+  min-width: 2.4rem;
+  font-size: 1.25em;
+  margin: 0 0.5em;
+  padding: 0 0.9em;
   font-family: "Noto Sans JP", sans-serif;
+  border: none;
+  border-radius: 1.2em;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  color: #222;
+  cursor: pointer;
+  outline: none;
+  transition:
+    background 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.12s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  user-select: none;
+  will-change: transform, box-shadow, background, color;
+}
+
+.action_button:hover,
+.action_button:focus-visible {
+  background: #f3f6fa;
+  color: #007aff;
+  box-shadow: 0 4px 16px rgba(0, 122, 255, 0.1);
+  transform: scale(1.07);
+}
+
+.action_button:active {
+  background: #e6eaf0;
+  color: #0051a8;
+  transform: scale(0.97);
+  box-shadow: 0 1px 4px rgba(0, 122, 255, 0.08);
+}
+
+.action_button.reset {
+  margin-left: 0;
+}
+.action_button.copy {
+  margin-right: 0;
+}
+
+.action_button_caption {
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 0.92em;
+  font-style: italic;
+  color: #888;
+  margin-top: 0.5em;
+  min-height: 1.2em;
+  opacity: 0;
+  transition: opacity 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  text-align: center;
+}
+
+.action_button_caption.visible {
+  opacity: 1;
+}
+
+.action_button_area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2em;
+  margin-top: 0.7em;
+}
+
+.action_button_group {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 0.5em;
 }
 
 .action_button.reset {

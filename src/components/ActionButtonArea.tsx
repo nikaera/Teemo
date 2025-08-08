@@ -1,3 +1,4 @@
+import React from "react";
 import classNames from "classnames";
 
 import { useCallback, useState, MouseEvent } from "react";
@@ -9,72 +10,105 @@ interface ActionButtonAreaProps {
 }
 
 const ActionButtonArea: React.FunctionComponent<ActionButtonAreaProps> = (
-  props
+  props,
 ) => {
-  const [actionButtonCaption, setActionButtonCaption] = useState("");
+  const [caption, setCaption] = useState("");
+  const [showCaption, setShowCaption] = useState(false);
 
-  const onClickButton = useCallback((event: MouseEvent<HTMLButtonElement>) => {
-    const actionType = event.currentTarget.dataset.action as
-      | "reset"
-      | "pallet"
-      | "copy";
-    props.onClick(actionType);
+  const onClickButton = useCallback(
+    (event: MouseEvent<HTMLButtonElement>) => {
+      const actionType = event.currentTarget.dataset.action as
+        | "reset"
+        | "pallet"
+        | "copy";
+      props.onClick(actionType);
+    },
+    [props],
+  );
+
+  const updateCaption = useCallback((event: MouseEvent<HTMLButtonElement>) => {
+    const actionType = event.currentTarget.dataset.action;
+    showCaptionForAction(actionType);
   }, []);
 
-  const updateActionButtonCaption = useCallback(
-    (event: MouseEvent<HTMLButtonElement>) => {
+  const updateCaptionByFocus = useCallback(
+    (event: React.FocusEvent<HTMLButtonElement>) => {
       const actionType = event.currentTarget.dataset.action;
-      switch (actionType) {
-        case "reset":
-          setActionButtonCaption("Clear textarea. 🆕");
-          break;
-        case "pallet":
-          setActionButtonCaption("Toggle open or close the emoji picker . 🎨");
-          break;
-        case "copy":
-          setActionButtonCaption("Copy the text you are typing. 📋");
-          break;
-      }
+      showCaptionForAction(actionType);
     },
-    []
+    [],
   );
 
-  const clearActionButtonCaption = useCallback(
-    () => setActionButtonCaption(""),
-    []
-  );
+  const showCaptionForAction = (actionType?: string | null) => {
+    switch (actionType) {
+      case "reset":
+        setCaption("Clear textarea. 🆕 (Ctrl + R)");
+        break;
+      case "pallet":
+        setCaption("Toggle open or close the emoji picker . 🎨 (Ctrl + E)");
+        break;
+      case "copy":
+        setCaption("Copy the text you are typing. 📋 (Ctrl + C)");
+        break;
+      default:
+        setCaption("");
+    }
+    setShowCaption(true);
+  };
+
+  const clearCaption = useCallback(() => {
+    setShowCaption(false);
+  }, []);
 
   return (
-    <div style={{ display: props.hidden ? "none" : "" }}>
-      <button
-        className={classNames("action_button", "reset")}
-        data-action={"reset"}
-        onClick={onClickButton}
-        onMouseEnter={updateActionButtonCaption}
-        onMouseLeave={clearActionButtonCaption}
+    <div
+      className="action_button_area action-button-area"
+      style={{ display: props.hidden ? "none" : undefined }}
+    >
+      <div className="action_button_group">
+        <button
+          className={classNames("action_button", "reset")}
+          data-action="reset"
+          onClick={onClickButton}
+          onMouseEnter={updateCaption}
+          onFocus={updateCaptionByFocus}
+          onMouseLeave={clearCaption}
+          onBlur={clearCaption}
+          aria-label="テキストエリアをクリア (Ctrl + R)"
+        >
+          🆕
+        </button>
+        <button
+          className={classNames("action_button", "pallet")}
+          data-action="pallet"
+          onClick={onClickButton}
+          onMouseEnter={updateCaption}
+          onFocus={updateCaptionByFocus}
+          onMouseLeave={clearCaption}
+          onBlur={clearCaption}
+          aria-label="絵文字パレットを開閉 (Ctrl + E)"
+        >
+          🎨
+        </button>
+        <button
+          className={classNames("action_button", "copy")}
+          data-action="copy"
+          onClick={onClickButton}
+          onMouseEnter={updateCaption}
+          onFocus={updateCaptionByFocus}
+          onMouseLeave={clearCaption}
+          onBlur={clearCaption}
+          aria-label="テキストをコピー (Ctrl + C)"
+        >
+          {props.copied ? "✅" : "📋"}
+        </button>
+      </div>
+      <p
+        className={classNames("action_button_caption", {
+          visible: showCaption,
+        })}
       >
-        🆕 (Ctrl + R)
-      </button>
-      <button
-        className={classNames("action_button")}
-        data-action={"pallet"}
-        onClick={onClickButton}
-        onMouseEnter={updateActionButtonCaption}
-        onMouseLeave={clearActionButtonCaption}
-      >
-        🎨 (Ctrl + E)
-      </button>
-      <button
-        className={classNames("action_button", "copy")}
-        data-action={"copy"}
-        onClick={onClickButton}
-        onMouseEnter={updateActionButtonCaption}
-        onMouseLeave={clearActionButtonCaption}
-      >
-        {props.copied ? "✅" : "📋"} (Ctrl + C)
-      </button>
-      <p className={classNames("caution", "action_button_caption")}>
-        {actionButtonCaption}
+        {caption}
       </p>
     </div>
   );
