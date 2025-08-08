@@ -12,9 +12,7 @@
     "128": "icon128.png"
   },
   "action": {},
-  "permissions": [
-    "system.display"
-  ],
+  "permissions": ["system.display"],
   "commands": {
     "_execute_action": {
       "suggested_key": {

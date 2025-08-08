@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-import { viteStaticCopy } from 'vite-plugin-static-copy';
+import { viteStaticCopy } from "vite-plugin-static-copy";
 
 export default defineConfig({
   plugins: [
@@ -9,19 +9,19 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: 'assets/**',
-          dest: '.'
+          src: "assets/**",
+          dest: ".",
         },
         {
-          src: 'manifest.json',
-          dest: '.'
+          src: "manifest.json",
+          dest: ".",
         },
         {
-          src: 'background.js',
-          dest: '.'
-        }
-      ]
-    })
+          src: "background.js",
+          dest: ".",
+        },
+      ],
+    }),
   ],
   build: {
     outDir: "build",

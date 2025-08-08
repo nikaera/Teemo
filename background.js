@@ -1,5 +1,4 @@
-/* global chrome, screen */
-
+/* global chrome */
 
 let vid = -1;
 const w = 450; // ウィンドウ幅を拡大
@@ -16,9 +15,13 @@ function getCenterPosition(width, height, callback) {
   }
   chrome.system.display.getInfo(function (displays) {
     // プライマリディスプレイを探す
-    const primary = displays.find(d => d.isPrimary) || displays[0];
-    const left = Math.round(primary.bounds.left + (primary.bounds.width - width) / 2);
-    const top = Math.round(primary.bounds.top + (primary.bounds.height - height) / 2);
+    const primary = displays.find((d) => d.isPrimary) || displays[0];
+    const left = Math.round(
+      primary.bounds.left + (primary.bounds.width - width) / 2,
+    );
+    const top = Math.round(
+      primary.bounds.top + (primary.bounds.height - height) / 2,
+    );
     callback(left, top);
   });
 }

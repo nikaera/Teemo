@@ -15,7 +15,7 @@
     ]
   },
   "dependencies": {
-    "@nikaera/react-emoji-textarea": "^2.0.0",
+    "@nikaera/react-emoji-textarea": "^2.0.1",
     "classnames": "^2.5.1",
     "emoji-mart": "^5.6.0"
   },
@@ -24,8 +24,8 @@
     "build": "tsc --noEmit && rm -r build/ && vite build",
     "preview": "vite preview",
     "check-types": "tsc --noEmit",
-    "lint": "prettier --check . && eslint . --ext .ts,.tsx",
-    "fix": "prettier --write . && eslint . --ext .ts,.tsx --fix",
+    "lint": "prettier --check . && eslint .",
+    "fix": "prettier --write . && eslint . --fix",
     "semantic-release": "semantic-release"
   },
   "devDependencies": {

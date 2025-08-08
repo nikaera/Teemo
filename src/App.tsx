@@ -189,8 +189,8 @@ const App: React.FunctionComponent = () => {
       const target = e.target as HTMLElement;
       // EmojiTextArea, ActionButtonArea, Picker, CopiedLabel などは除外
       if (
-        target.closest('.action-button') // ActionButtonAreaのラッパーにclassを付与している前提
-        || target.closest('em-emoji-picker') // EmojiTextAreaのラッパーにclassを付与している前提
+        target.closest(".action-button") || // ActionButtonAreaのラッパーにclassを付与している前提
+        target.closest("em-emoji-picker") // EmojiTextAreaのラッパーにclassを付与している前提
       ) {
         return;
       }
@@ -199,11 +199,11 @@ const App: React.FunctionComponent = () => {
     };
     const appEl = appRef.current;
     if (appEl) {
-      appEl.addEventListener('click', handleAppClick);
+      appEl.addEventListener("click", handleAppClick);
     }
     return () => {
       if (appEl) {
-        appEl.removeEventListener('click', handleAppClick);
+        appEl.removeEventListener("click", handleAppClick);
       }
     };
   }, [textAreaEl.current]);
@@ -212,7 +212,7 @@ const App: React.FunctionComponent = () => {
     <AuroraBackground>
       <div className="App" ref={appRef}>
         <div className="teemo-main">
-          <div className={`teemo-textarea-wrap${textFocus ? " focused" : ""}`}> 
+          <div className={`teemo-textarea-wrap${textFocus ? " focused" : ""}`}>
             <EmojiTextArea
               ref={textAreaEl}
               showPicker={isShowPicker}
@@ -234,7 +234,8 @@ const App: React.FunctionComponent = () => {
           />
           {isShowPicker && (
             <p className="action_button_caption">
-              To close the emoji picker, type Ctrl + E or click on the text area. 🎨
+              To close the emoji picker, type Ctrl + E or click on the text
+              area. 🎨
             </p>
           )}
         </div>

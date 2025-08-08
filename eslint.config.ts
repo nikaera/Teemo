@@ -10,6 +10,7 @@ const tsconfigRootDir = dirname(fileURLToPath(import.meta.url));
 
 export default [
   js.configs.recommended,
+  { ignores: ["node_modules", "build"] },
   {
     files: ["src/**/*.ts", "src/**/*.tsx"],
     languageOptions: {
