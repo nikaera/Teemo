@@ -18,6 +18,7 @@ const App: React.FunctionComponent = () => {
     showCopiedLabel: false,
     textFocus: false,
   });
+  const [textValue, setTextValue] = useState("");
   const {
     isExistSuggests,
     isShowPicker,
@@ -107,19 +108,20 @@ const App: React.FunctionComponent = () => {
 
   useEffect(() => {
     const onDetectHotKey = (e: KeyboardEvent) => {
+      const key = e.key.toLowerCase();
       if (e.ctrlKey || e.metaKey) {
-        if (e.key === "e") {
+        if (key === "e") {
           switchShowPicker();
           e.preventDefault();
-        } else if (e.key === "c") {
+        } else if (key === "c") {
           void copyTextAreaText();
-        } else if (e.key === "r") {
+        } else if (key === "r") {
           clearTextAreaText();
-        } else if (e.key === "w" || e.key === "o" || e.key === "O") {
+        } else if (key === "w" || key === "o") {
           window.close();
           return;
         }
-      } else if (e.key === "Escape") {
+      } else if (key === "escape") {
         showDefaultUI();
       }
     };
@@ -175,11 +177,10 @@ const App: React.FunctionComponent = () => {
     () => setState((prev) => ({ ...prev, isShowPicker: false })),
     [],
   );
-  const onChange = useCallback(
-    () =>
-      setState((prev) => ({ ...prev, isShowPicker: false, isCopied: false })),
-    [],
-  );
+  const onChange = useCallback((val: string) => {
+    setState((prev) => ({ ...prev, isShowPicker: false, isCopied: false }));
+    setTextValue(val);
+  }, []);
 
   // textarea以外クリック時にフォーカスを当てる
   const appRef = useRef<HTMLDivElement>(null);
@@ -226,6 +227,9 @@ const App: React.FunctionComponent = () => {
             {showCopiedLabel && (
               <span className="teemo-copied-label">Copied!</span>
             )}
+            <div className="teemo-charcount-label-under">
+              {Array.from(textValue).length}
+            </div>
           </div>
           <ActionButtonArea
             hidden={isShowPicker || isExistSuggests}

@@ -1,6 +1,6 @@
 {
   "name": "teemo",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "private": true,
   "browserslist": {
     "production": [
@@ -15,7 +15,7 @@
     ]
   },
   "dependencies": {
-    "@nikaera/react-emoji-textarea": "^2.0.1",
+    "@nikaera/react-emoji-textarea": "^2.0.2",
     "classnames": "^2.5.1",
     "emoji-mart": "^5.6.0"
   },
